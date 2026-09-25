@@ -387,6 +387,7 @@ const VIDEO_LESSONS = [
   {
     id: 1,
     title: "Chiqindilarni Nega Saralashimiz Kerak?",
+    category: "nature",
     gradeText: "1-3 sinflar uchun",
     grades: [1, 2, 3],
     duration: "3 daqiqa",
@@ -438,6 +439,7 @@ const VIDEO_LESSONS = [
   {
     id: 2,
     title: "Plastik Idishlar Sarguzashti: Qayta Ishlash Mo'jizasi",
+    category: "plastic",
     gradeText: "1-5 sinflar uchun",
     grades: [1, 2, 3, 4, 5],
     duration: "4 daqiqa",
@@ -488,21 +490,22 @@ const VIDEO_LESSONS = [
   },
   {
     id: 3,
-    title: "Daraxtlarni Qutqaramiz: Qog'oz va Makulatura",
-    gradeText: "2-5 sinflar uchun",
-    grades: [2, 3, 4, 5],
-    duration: "3 daqiqa",
+    title: "Daraxtlarni Qutqaramiz: Qog'oz va Makulatura Sirlari",
+    category: "paper",
+    gradeText: "1-5 sinflar uchun",
+    grades: [1, 2, 3, 4, 5],
+    duration: "4 daqiqa",
     watchPoints: 50,
     quizPoints: 75,
     badge: "O'rmon Do'sti",
     color: "#059669",
-    youtubeId: "7774B3g_i6c",
-    embedUrl: "https://www.youtube-nocookie.com/embed/7774B3g_i6c?rel=0",
-    summary: "Maktabimizdagi har bir eski daftar daraxtlarni saqlab qolishi mumkin. Makulaturani to'g'ri yig'ish sirlari.",
+    youtubeId: "-01T9e6VDWU",
+    embedUrl: "https://www.youtube-nocookie.com/embed/-01T9e6VDWU?rel=0",
+    summary: "Har bir eski daftar daraxtlarni saqlab qolishi mumkin. Makulaturani to'g'ri yig'ish va qog'ozni qayta ishlash sirlari.",
     learningGoals: [
-      "1 tonna qog'oz = 17 ta kesilmagan daraxt",
-      "Yog'li pitsa qutisi nima uchun qayta ishlanmaydi",
-      "Sinfda makulatura burchagini ochish"
+      "1 tonna qog'oz = 17 ta kesilmagan yashil daraxt",
+      "Qog'oz tolalari 5-7 martagacha yangi qog'oz bo'lishi",
+      "Yog'li pitsa qutisi nima uchun qayta ishlanmasligi"
     ],
     quiz: [
       {
@@ -539,7 +542,8 @@ const VIDEO_LESSONS = [
   },
   {
     id: 4,
-    title: "Xavfli Chiqindilar: Batareyani Aslo Axlatga Tashlama!",
+    title: "Xavfli Chiqindilar: Batareya va Elektron Chiqindilar",
+    category: "battery",
     gradeText: "3-5 sinflar uchun",
     grades: [3, 4, 5],
     duration: "4 daqiqa",
@@ -547,13 +551,13 @@ const VIDEO_LESSONS = [
     quizPoints: 75,
     badge: "Eko-Xavfsizlik",
     color: "#f59e0b",
-    youtubeId: "5b3310313",
-    embedUrl: "https://www.youtube-nocookie.com/embed/q2Z4Z-xGSmI?rel=0",
-    summary: "O'yinchoq va pult batareyalaridagi og'ir metallar. Ularni nima uchun alohida qutiga yig'ish shart?",
+    youtubeId: "MQLadfsvfLo",
+    embedUrl: "https://www.youtube-nocookie.com/embed/MQLadfsvfLo?rel=0",
+    summary: "O'yinchoq pultlari batareyasi va eski telefonlardagi og'ir metallar. Ularni nima uchun alohida qutiga yig'ish shart?",
     learningGoals: [
       "1 dona batareya = 20 kv.m yer yoki 400 litr toza suv zarari",
-      "Simob va qo'rg'oshin xavfi",
-      "Maktabda batareya yig'ish qutisi yasash"
+      "Simob va qo'rg'oshin kabi og'ir moddalar xavfi",
+      "Maktabda batareya yig'ish qutisi yasash qoidalari"
     ],
     quiz: [
       {
@@ -585,6 +589,422 @@ const VIDEO_LESSONS = [
         ],
         correct: 0,
         explanation: "Juda to'g'ri! Simob o'ta zaharli moddadir, uni faqat kattalar maxsus qoidaga ko'ra tozalaydi."
+      }
+    ]
+  },
+  {
+    id: 5,
+    title: "Dengiz va Okeanlar: Plastik Ifloslanishiga Chek Qo'yamiz",
+    category: "plastic",
+    gradeText: "1-5 sinflar uchun",
+    grades: [1, 2, 3, 4, 5],
+    duration: "5 daqiqa",
+    watchPoints: 50,
+    quizPoints: 75,
+    badge: "Okean Qo'riqchisi",
+    color: "#0284c7",
+    youtubeId: "ODni_Bey154",
+    embedUrl: "https://www.youtube-nocookie.com/embed/ODni_Bey154?rel=0",
+    summary: "Daryolar orqali dengizga yetib borgan axlatlar toshbaqalar va kitlarga qanday zarar keltiradi? Mikroplastik xavfi.",
+    learningGoals: [
+      "Plastik paketlar va somonchalarning dengiz jonzotlariga zarari",
+      "Mikroplastiklar suv havzalariga qanday tushishi",
+      "Bir martalik plastiklar o'rniga matoli xarid xaltalaridan foydalanish"
+    ],
+    quiz: [
+      {
+        question: "Dengiz toshbaqalari ko'pincha suvda suzib yurgan plastik paketlarni nima deb o'ylab yutib yuboradi?",
+        options: [
+          "O'zining sevimli ozuqasi — meduza deb",
+          "Katta tosh deb",
+          "Muz bo'lagi deb"
+        ],
+        correct: 0,
+        explanation: "Afsuski, shunday! Suvdagi shaffof paketlar meduzaga juda o'xshaydi va jonzotlarni nobud qiladi."
+      },
+      {
+        question: "Mikroplastik nima degani?",
+        options: [
+          "Quyosh va to'lqinlar ta'sirida maydalanib ketgan ko'zga arang ko'rinadigan plastik zarrachalari",
+          "Kichik o'yinchoq robotlar",
+          "Dengizdagi toza marvaridlar"
+        ],
+        correct: 0,
+        explanation: "To'g'ri! Mayda mikroplastik zarrachalari suv va baliqlar orqali inson tanasiga ham yetib boradi."
+      },
+      {
+        question: "Do'konga borganda har gal yangi polietilen paket olmaslik uchun nima qilish kerak?",
+        options: [
+          "Uyda doimiy ko'p martalik chiroyli eko-sumka (shoper) olib yurish",
+          "Xaridlarni yerga sochib olib ketish",
+          "Hech narsa xarid qilmaslik"
+        ],
+        correct: 0,
+        explanation: "Barakalla! Eko-sumka har yili yuzlab ortiqcha paketlarning tabiatga tushishini to'xtatadi."
+      }
+    ]
+  },
+  {
+    id: 6,
+    title: "Agar Qayta Ishlash To'xtasa Nima Bo'ladi? Eko-Falokat",
+    category: "nature",
+    gradeText: "2-5 sinflar uchun",
+    grades: [2, 3, 4, 5],
+    duration: "4 daqiqa",
+    watchPoints: 50,
+    quizPoints: 75,
+    badge: "Sayyora Kelajagi",
+    color: "#8b5cf6",
+    youtubeId: "EyLJ4158Y3s",
+    embedUrl: "https://www.youtube-nocookie.com/embed/EyLJ4158Y3s?rel=0",
+    summary: "Tasavvur qiling: insoniyat axlat saralashni to'xtatsa, 1 yilda shaharlarimiz qanday axlat tog'lariga ko'milib qoladi?",
+    learningGoals: [
+      "Chiqindixonalar (poligonlar) maydonining cheklanganligi",
+      "Zaharli metan gazi va yer osti suvlarining ifloslanishi",
+      "Har bir bolaning chiqindilarni kamaytirishdagi o'rni"
+    ],
+    quiz: [
+      {
+        question: "Agar butun dunyoda chiqindilarni qayta ishlash to'xtatilsa, qanday muammo yuzaga keladi?",
+        options: [
+          "Shaharlar atrofida ulkan zaharli axlat tog'lari hosil bo'ladi va havo buziladi",
+          "Tabiat yanada yashillashib ketadi",
+          "Hech qanday o'zgarish bo'lmaydi"
+        ],
+        correct: 0,
+        explanation: "To'g'ri! Poligonlar to'lib, zaharli moddalar tuproq va havoni yaroqsiz holga keltiradi."
+      },
+      {
+        question: "Chiqindilarni ochiq havoda yoqish nima uchun qat'iyan taqiqlanadi?",
+        options: [
+          "Chunki u havoga zaharli dioksin va tutun tarqatib o'pka kasalliklarini keltirib chiqaradi",
+          "Chunki tutun juda chiroyli",
+          "Chunki olov juda salqin bo'ladi"
+        ],
+        correct: 0,
+        explanation: "Ofarin! Chiqindini yoqish inson salomatligi va atmosferaga juda katta ziyon yetkazadi."
+      },
+      {
+        question: "Eko-qahramon bo'lish uchun o'quvchi birinchi navbatda nima qilishi kerak?",
+        options: [
+          "O'z xonasida va maktabida chiqindilarni saralab tashlash odatini yo'lga qo'yishi lozim",
+          "Chiqindini derazadan ko'chaga uloqtirishi kerak",
+          "Kattalarga xalaqit berishi lozim"
+        ],
+        correct: 0,
+        explanation: "Ajoyib javob! Har bir ezgu o'zgarish o'zimizdan va oddiy saralashdan boshlanadi."
+      }
+    ]
+  },
+  {
+    id: 7,
+    title: "Oltin Qoida: 3R — Kamaytirish, Qayta Ishlatish, Saralash",
+    category: "nature",
+    gradeText: "1-4 sinflar uchun",
+    grades: [1, 2, 3, 4],
+    duration: "3 daqiqa",
+    watchPoints: 50,
+    quizPoints: 75,
+    badge: "3R Metodi",
+    color: "#10b981",
+    youtubeId: "6jQ7y_qQYUA",
+    embedUrl: "https://www.youtube-nocookie.com/embed/6jQ7y_qQYUA?rel=0",
+    summary: "Reduce (Kamaytir), Reuse (Qayta ishlat), Recycle (Qayta ishla). Sayyoramizni qutqaruvchi 3 ta sehrli qoida bilan tanishing!",
+    learningGoals: [
+      "Keraksiz ortiqcha buyumlarni xarid qilmaslik (Reduce)",
+      "Eski karton qutidan o'yinchoq yoki qalamdon yasash (Reuse)",
+      "Toza saralangan chiqindini maxsus qutiga topshirish (Recycle)"
+    ],
+    quiz: [
+      {
+        question: "3R formulasining birinchi 'R' harfi — REDUCE nimani bildiradi?",
+        options: [
+          "Ortiqcha chiqindi va keraksiz xaridlarni kamaytirishni",
+          "Ko'proq axlat ishlab chiqarishni",
+          "Do'kondagi barcha narsani sotib olishni"
+        ],
+        correct: 0,
+        explanation: "To'g'ri! Eng yaxshi chiqindi — bu umuman hosil bo'lmagan chiqindidir."
+      },
+      {
+        question: "Eski poyabzal qutisini tashlab yubormasdan qalamdon yoki o'yinchoq sandig'i qilish qaysi qoidaga kiradi?",
+        options: [
+          "REUSE — Qayta foydalanish",
+          "BURN — Yoqib yuborish",
+          "FORGET — Unutib qo'yish"
+        ],
+        correct: 0,
+        explanation: "Barakalla! Buyumlarni ikkinchi bor foydali maqsadga ishlatish REUSE deb ataladi."
+      },
+      {
+        question: "Chiqindilarni saralash (RECYCLE) jarayonining asosiy sharti nima?",
+        options: [
+          "Qayta ishlanuvchi materiallar toza va quruq bo'lishi",
+          "Ichiga ovqat qoldiqlari to'ldirilishi",
+          "Ularni daryoga oqizish"
+        ],
+        correct: 0,
+        explanation: "To'ppa-to'g'ri! Agar qog'oz yoki plastik toza bo'lsa, zavod uni sifatli qayta ishlay oladi."
+      }
+    ]
+  },
+  {
+    id: 8,
+    title: "Kompost Mo'jizasi: Oshxona Chiqindisidan Unumdor Tuproq",
+    category: "organic",
+    gradeText: "2-5 sinflar uchun",
+    grades: [2, 3, 4, 5],
+    duration: "4 daqiqa",
+    watchPoints: 50,
+    quizPoints: 75,
+    badge: "Agro-Ekologiya",
+    color: "#84cc16",
+    youtubeId: "26IO95Xt5WU",
+    embedUrl: "https://www.youtube-nocookie.com/embed/26IO95Xt5WU?rel=0",
+    summary: "Banan po'stlog'i, olma qoldiqlari va xazonlar qanday qilib o'simliklar uchun eng shirin tabiiy o'g'itga aylanadi?",
+    learningGoals: [
+      "Qaysi chiqindilar kompostga mos keladi (meva, sabzavot po'choqlari)",
+      "Go'sht va yog'li ovqatlarni kompostga solmaslik sababi",
+      "Bio-chirindi hosil bo'lishida mikroorganizmlar mehnati"
+    ],
+    quiz: [
+      {
+        question: "Quyidagilardan qaysi birini kompost chuquriga tashlash juda foydali?",
+        options: [
+          "Banan po'chog'i, olma qoldig'i va quruq xazonlar",
+          "Plastik butilka qopqoqlari",
+          "Temir mixlar va simlar"
+        ],
+        correct: 0,
+        explanation: "To'g'ri! Meva va sabzavot qoldiqlari tuproqda chirib ajoyib bio-o'g'it (gumus) hosil qiladi."
+      },
+      {
+        question: "Kompost qutisiga nima sababdan go'sht va yog'li ovqatlarni tashlamaslik tavsiya etiladi?",
+        options: [
+          "Chunki ular yomon hid chiqaradi va kemiruvchilarni jalb qilishi mumkin",
+          "Chunki ular juda shirin",
+          "Chunki ular darhol olmosga aylanadi"
+        ],
+        correct: 0,
+        explanation: "Ofarin! Go'sht va sut mahsulotlari chirish jarayonini buzadi, faqat o'simlik qoldiqlari ma'qul."
+      },
+      {
+        question: "Tayyor bo'lgan tabiiy kompost o'g'iti nima uchun ishlatiladi?",
+        options: [
+          "Daraxtlar, gullar va sabzavotlar tez va sog'lom o'sishi uchun yerga solinadi",
+          "Devorlarni bo'yash uchun",
+          "Uydagi idishlarni yuvish uchun"
+        ],
+        correct: 0,
+        explanation: "Barakalla! Kompost — bu kimyoviy dori vositalarisiz olingan eng toza tabiiy ozuqadir."
+      }
+    ]
+  },
+  {
+    id: 9,
+    title: "Suv — Hayot Manbai: Daryolar va Toza Suvni Asrash",
+    category: "water",
+    gradeText: "1-5 sinflar uchun",
+    grades: [1, 2, 3, 4, 5],
+    duration: "4 daqiqa",
+    watchPoints: 50,
+    quizPoints: 75,
+    badge: "Suv Saqlovchi",
+    color: "#0ea5e9",
+    youtubeId: "MEb7nnMLcaA",
+    embedUrl: "https://www.youtube-nocookie.com/embed/MEb7nnMLcaA?rel=0",
+    summary: "Nega tish yuvganda jo'mrakni yopib qo'yish kerak? Sayyoramizdagi ichimlik suvi zaxiralari va tozalik sirlari.",
+    learningGoals: [
+      "Dunyodagi ichimlik suvi miqdori cheklanganligi (atigi 1-2%)",
+      "Ariq va kanallarga chiqindi tashlamaslik madaniyati",
+      "Uyda suvni tejashning oson 3 ta usuli"
+    ],
+    quiz: [
+      {
+        question: "Tish tozalayotganda jo'mrakni yopib qo'ysak, 1 martada qancha toza suv tejaladi?",
+        options: [
+          "Taxminan 5 dan 10 litrgacha toza ichimlik suvi",
+          "Atigi 1 tomchi",
+          "Umuman tejalmaydi"
+        ],
+        correct: 0,
+        explanation: "To'g'ri! Har kuni jo'mrakni yopish orqali oyiga yuzlab litr toza ichimlik suvi tejaladi."
+      },
+      {
+        question: "Yer sharining aksar qismi suv bilan qoplangan bo'lsa ham, nega suvni tejashimiz kerak?",
+        options: [
+          "Chunki 97% suv sho'r dengiz suvi bo'lib, chuchuk ichimlik suvi juda kam",
+          "Chunki suv erib ketadi",
+          "Chunki suv faqat qishda kerak"
+        ],
+        correct: 0,
+        explanation: "Barakalla! Ichishga yaroqli toza chuchuk suv sayyoramizdagi suvning atigi 1-2% ini tashkil etadi."
+      },
+      {
+        question: "Ko'chada, ariq yoki soy bo'yida dam olgach, chiqindilarni nima qilish lozim?",
+        options: [
+          "Paketga yig'ishtirib olib chiqib, maxsus axlat qutisiga tashlash",
+          "Suvga oqizib yuborish",
+          "Daraxt tagiga ko'mib qochish"
+        ],
+        correct: 0,
+        explanation: "Ajoyib odob! Suv manbalarini toza saqlash barcha tirik mavjudotlarning hayotini saqlaydi."
+      }
+    ]
+  },
+  {
+    id: 10,
+    title: "Shisha Idishlar: Cheksiz Qayta Ishlanuvchi Mo'jiza",
+    category: "glass-metal",
+    gradeText: "2-5 sinflar uchun",
+    grades: [2, 3, 4, 5],
+    duration: "3 daqiqa",
+    watchPoints: 50,
+    quizPoints: 75,
+    badge: "Shisha Sirlari",
+    color: "#14b8a6",
+    youtubeId: "paRNPCqYj-k",
+    embedUrl: "https://www.youtube-nocookie.com/embed/paRNPCqYj-k?rel=0",
+    summary: "Shisha tabiiy qum va kvarsdan yasaladi. Uni 1000 marta qayta eritib yangi banka qilsa ham sifatini aslo yo'qotmaydi!",
+    learningGoals: [
+      "Shishaning cheksiz qayta ishlanish afzalligi",
+      "Shisha idishlarni rangiga ko'ra saralash (oq, yashil, jigarrang)",
+      "Singan shishani xavfsiz qilib gazetaga o'rash qoidasi"
+    ],
+    quiz: [
+      {
+        question: "Shishaning boshqa materiallardan eng katta ustunligi nima?",
+        options: [
+          "Uni cheksiz marta qayta eritish mumkin va sifati aslo pasaymaydi",
+          "U hech qachon sinmaydi",
+          "U suvda o'z-o'zidan erib ketadi"
+        ],
+        correct: 0,
+        explanation: "To'g'ri! Shisha 100% cheksiz qayta ishlanadi va yangi tabiiy qumni tejaydi."
+      },
+      {
+        question: "Shisha idishlarni qayta ishlashga topshirishdan oldin nima qilish kerak?",
+        options: [
+          "Ichidagi suyuqlikni to'kib, chayib, qopqog'ini alohida ajratish",
+          "Unga bo'yoq sepish",
+          "Bolg'a bilan maydalab sochish"
+        ],
+        correct: 0,
+        explanation: "Barakalla! Toza shisha idishlar zavodda ranglariga ko'ra oson saralanadi."
+      },
+      {
+        question: "Agar ko'chada singan shisha parchalarini ko'rib qolsangiz nima qilish to'g'ri?",
+        options: [
+          "Kattalarga aytib, qo'lqop bilan ehtiyotkorlik bilan yig'ib qalin qog'ozga o'rab tashlash",
+          "Yalangoyoq ustidan yugurib o'tish",
+          "Uni o'rtoqlarga qarab otish"
+        ],
+        correct: 0,
+        explanation: "Ofarin! Singan shishani xavfsiz o'rab tashlash boshqalarning jarohatlanishidan asraydi."
+      }
+    ]
+  },
+  {
+    id: 11,
+    title: "Metall va Alyuminiy: Ichimlik Qutilarining Ikkinchi Hayoti",
+    category: "glass-metal",
+    gradeText: "3-5 sinflar uchun",
+    grades: [3, 4, 5],
+    duration: "3 daqiqa",
+    watchPoints: 50,
+    quizPoints: 75,
+    badge: "Metall Qayta Ishlash",
+    color: "#64748b",
+    youtubeId: "HQTUWK7CM-Y",
+    embedUrl: "https://www.youtube-nocookie.com/embed/HQTUWK7CM-Y?rel=0",
+    summary: "1 dona alyuminiy ichimlik qutisini qayta ishlash televizorni 3 soat ishlatishga yetadigan elektr energiyasini tejaydi!",
+    learningGoals: [
+      "Alyuminiy va po'lat bankalarning farqi",
+      "Qutilarni ezib yassilash orqali transport yukini yengillatish",
+      "Qayta ishlangan metaldan velosiped va samolyot qismlari yasalishi"
+    ],
+    quiz: [
+      {
+        question: "1 dona alyuminiy ichimlik qutisini qayta ishlash qancha energiyani tejaydi?",
+        options: [
+          "Televizorni 3 soat davomida ishlatishga yetadigan energiyani",
+          "Atigi 1 soniyalik chiroq energiyasini",
+          "Hech qanday energiya tejay olmaydi"
+        ],
+        correct: 0,
+        explanation: "To'g'ri! Alyuminiyni noldan eritishga qaraganda qayta ishlash 95% kamroq energiya sarflaydi."
+      },
+      {
+        question: "Ichimlik qutisi (banka)ni qayta ishlash qutisiga tashlashdan oldin nima qilish foydali?",
+        options: [
+          "Oyoq yoki qo'l bilan ezib, yassilab qo'yish",
+          "Ichiga muz to'ldirish",
+          "Qutini yirtib sochish"
+        ],
+        correct: 0,
+        explanation: "Barakalla! Yassilangan quti 4 baravar kam joy egallaydi va qutiga ko'proq chiqindi sig'adi."
+      },
+      {
+        question: "Qayta ishlangan alyuminiydan qancha vaqtdan so'ng yana yangi ichimlik qutisi paydo bo'lishi mumkin?",
+        options: [
+          "Taxminan 60 kun (2 oy) ichida rastalarga qaytadi",
+          "100 yildan keyin",
+          "Hech qachon yangi quti bo'lmaydi"
+        ],
+        correct: 0,
+        explanation: "Ajoyib fakt! Alyuminiy qayta ishlanib bor-yo'g'i 60 kunda yana yangi mahsulotga aylanadi."
+      }
+    ]
+  },
+  {
+    id: 12,
+    title: "Yashil Energiya va Toza Sayyora: Quyosh va Shamol Kuchi",
+    category: "energy",
+    gradeText: "3-5 sinflar uchun",
+    grades: [3, 4, 5],
+    duration: "4 daqiqa",
+    watchPoints: 50,
+    quizPoints: 75,
+    badge: "Eko-Texnologiya",
+    color: "#eab308",
+    youtubeId: "6djnJxdSQWQ",
+    embedUrl: "https://www.youtube-nocookie.com/embed/6djnJxdSQWQ?rel=0",
+    summary: "Tutunli ko'mir va gaz o'rniga bepul va toza Quyosh nuri hamda shamol kuchi. Shaharlarimiz qanday toza bo'ladi?",
+    learningGoals: [
+      "Qayta tiklanuvchi energiya nima va nima uchun u havoni ifloslantirmaydi",
+      "Quyosh panellarining ishlash printsipi",
+      "Xonadan chiqqanda chiroqni o'chirish orqali tabiatga ko'mak"
+    ],
+    quiz: [
+      {
+        question: "Quyidagilardan qaysi biri toza va qayta tiklanuvchi (yashil) energiya manbai hisoblanadi?",
+        options: [
+          "Quyosh nuri, shamol kuchi va daryo oqimi",
+          "Ko'mir va neftni yoqish",
+          "Plastik chiqindilarni tutatish"
+        ],
+        correct: 0,
+        explanation: "To'g'ri! Quyosh va shamol energiyasi hech qachon tugamaydi va havoga tutun chiqarmaydi."
+      },
+      {
+        question: "O'quvchi uyda yoki maktabda energiyani tejash uchun nima qilishi kerak?",
+        options: [
+          "Xonadan chiqayotganda chiroq va televizorni o'chirib qo'yish",
+          "Barcha chiroqlarni kechasi bilan yoqib uxlash",
+          "Muzlatgich eshigini doim ochiq qoldirish"
+        ],
+        correct: 0,
+        explanation: "Ofarin! Elektr energiyasini tejash orqali elektr stansiyalarining tutun chiqarishini kamaytiramiz."
+      },
+      {
+        question: "Quyosh panellari qaysi narsadan elektr quvvati ishlab chiqaradi?",
+        options: [
+          "Tabiiy yorug'lik va quyosh nurlaridan",
+          "Muz va qordan",
+          "Oddiy axlatlardan"
+        ],
+        correct: 0,
+        explanation: "Barakalla! Quyosh batareyalari fotonlarni toza elektr energiyasiga aylantirib beradi."
       }
     ]
   }

@@ -217,22 +217,97 @@
 
       <!-- ================= 2. VIDEO DARSLIKLAR SAHIFASI (VIDEO VIEW) ================= -->
       <section class="view-section" id="video-view">
-        <div class="section-title-wrap">
-          <div class="view-badge-pill">🎬 Ta'limiy Video Darsliklar</div>
-          <h1 class="section-title">Bolalar Uchun Qiziqarli Eko-Darslar</h1>
-          <p class="section-subtitle">Videolarni tomosha qiling (+50 ball) va dars bo'yicha test savollariga javob berib qo'shimcha ballar to'plang (+75 ball)!</p>
+        <!-- Video Darsliklar Hero Bosh Paneli va Statistika -->
+        <div class="video-hero-header">
+          <div class="section-title-wrap">
+            <div class="view-badge-pill">🎬 Eko-Akademiya: Interaktiv Video Darslar</div>
+            <h1 class="section-title">Bolalar va O'quvchilar Uchun Qiziqarli Eko-Darslar</h1>
+            <p class="section-subtitle">Chiqindilarni saralash, tabiatni asrash va qayta ishlash mo'jizalarini videolarda o'rganing (+50 ball) hamda testlarni muvaffaqiyatli topshirib qo'shimcha ballar to'plang (+75 ball)!</p>
+          </div>
+
+          <!-- O'quvchi Natijalari va Progress Kartalari -->
+          <div class="video-stats-dashboard">
+            <div class="video-stat-card">
+              <div class="stat-icon-circle" style="background: rgba(16, 185, 129, 0.15); color: #10b981;">🎬</div>
+              <div class="stat-info">
+                <span class="stat-title">Jami Darsliklar</span>
+                <strong class="stat-number" id="video-stat-total">12 ta dars</strong>
+              </div>
+            </div>
+
+            <div class="video-stat-card">
+              <div class="stat-icon-circle" style="background: rgba(6, 182, 212, 0.15); color: #06b6d4;">👁️</div>
+              <div class="stat-info">
+                <span class="stat-title">Ko'rilgan Darslar</span>
+                <strong class="stat-number" id="video-stat-watched">0 / 12</strong>
+              </div>
+            </div>
+
+            <div class="video-stat-card">
+              <div class="stat-icon-circle" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">📝</div>
+              <div class="stat-info">
+                <span class="stat-title">Yechilgan Testlar</span>
+                <strong class="stat-number" id="video-stat-quizzes">0 ta</strong>
+              </div>
+            </div>
+
+            <div class="video-stat-card">
+              <div class="stat-icon-circle" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">⭐</div>
+              <div class="stat-info">
+                <span class="stat-title">To'plangan Ball</span>
+                <strong class="stat-number" id="video-stat-points">0 ball</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- O'quvchining Darsliklarni O'zlashtirish Chizig'i -->
+          <div class="video-overall-progress-box">
+            <div class="v-progress-info">
+              <span class="v-progress-label">🎯 Darsliklarni to'liq o'zlashtirish jarayoni:</span>
+              <strong class="v-progress-num" id="video-progress-percent">0%</strong>
+            </div>
+            <div class="v-progress-track">
+              <div class="v-progress-fill" id="video-progress-fill" style="width: 0%;"></div>
+            </div>
+          </div>
         </div>
 
-        <!-- Sinflar bo'yicha filter -->
-        <div class="grade-filter-bar">
-          <span class="filter-label">Sinfingizga mosini tanlang:</span>
-          <div class="filter-pills" id="video-grade-filters">
-            <button class="grade-pill active" data-grade="all">Barchasi (1-5 sinflar)</button>
-            <button class="grade-pill" data-grade="1">1-sinf</button>
-            <button class="grade-pill" data-grade="2">2-sinf</button>
-            <button class="grade-pill" data-grade="3">3-sinf</button>
-            <button class="grade-pill" data-grade="4">4-sinf</button>
-            <button class="grade-pill" data-grade="5">5-sinf</button>
+        <!-- Boshqaruv, Qidiruv va Filtr Paneli -->
+        <div class="video-controls-panel">
+          <!-- Qidiruv Maydoni -->
+          <div class="video-search-wrap">
+            <span class="search-input-icon">🔍</span>
+            <input type="text" id="video-search-input" class="video-search-input" placeholder="Dars nomi yoki mavzu bo'yicha qidirish (masalan: plastik, kompost, batareya, daraxt)..." autocomplete="off">
+            <button class="search-clear-btn" id="btn-clear-video-search" title="Qidiruvni tozalash" style="display: none;">✕</button>
+          </div>
+
+          <!-- Mavzular (Kategoriyalar) Filtri -->
+          <div class="video-topic-filters-row">
+            <span class="filter-topic-label">🏷️ Mavzuni tanlang:</span>
+            <div class="topic-pills" id="video-topic-filters">
+              <button class="topic-pill active" data-topic="all">Barcha mavzular</button>
+              <button class="topic-pill" data-topic="plastic">🥤 Plastik</button>
+              <button class="topic-pill" data-topic="paper">📄 Qog'oz</button>
+              <button class="topic-pill" data-topic="organic">🌱 Kompost</button>
+              <button class="topic-pill" data-topic="glass-metal">🍾 Shisha & Metall</button>
+              <button class="topic-pill" data-topic="battery">🔋 Batareyalar</button>
+              <button class="topic-pill" data-topic="water">💧 Suv & Dengiz</button>
+              <button class="topic-pill" data-topic="energy">☀️ Yashil Energiya</button>
+            </div>
+          </div>
+
+          <!-- Sinflar bo'yicha filter -->
+          <div class="grade-filter-bar">
+            <span class="filter-label">🎓 Sinfingizga mosini tanlang:</span>
+            <div class="filter-pills" id="video-grade-filters">
+              <button class="grade-pill active" data-grade="all">Barchasi (1-5 sinflar)</button>
+              <button class="grade-pill" data-grade="1">1-sinf</button>
+              <button class="grade-pill" data-grade="2">2-sinf</button>
+              <button class="grade-pill" data-grade="3">3-sinf</button>
+              <button class="grade-pill" data-grade="4">4-sinf</button>
+              <button class="grade-pill" data-grade="5">5-sinf</button>
+            </div>
+            <div class="filter-counter-badge" id="video-lessons-counter">12 ta darslik</div>
           </div>
         </div>
 

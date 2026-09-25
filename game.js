@@ -376,6 +376,16 @@
     // Video Section
     videoCardsContainer: document.getElementById('video-cards-container'),
     videoGradeFilters: document.getElementById('video-grade-filters'),
+    videoTopicFilters: document.getElementById('video-topic-filters'),
+    videoSearchInput: document.getElementById('video-search-input'),
+    btnClearVideoSearch: document.getElementById('btn-clear-video-search'),
+    videoLessonsCounter: document.getElementById('video-lessons-counter'),
+    videoStatTotal: document.getElementById('video-stat-total'),
+    videoStatWatched: document.getElementById('video-stat-watched'),
+    videoStatQuizzes: document.getElementById('video-stat-quizzes'),
+    videoStatPoints: document.getElementById('video-stat-points'),
+    videoProgressPercent: document.getElementById('video-progress-percent'),
+    videoProgressFill: document.getElementById('video-progress-fill'),
     videoPlayerModal: document.getElementById('video-player-modal'),
     videoIframe: document.getElementById('video-iframe'),
     videoModalTitle: document.getElementById('video-modal-title'),
@@ -1053,15 +1063,61 @@
 
   // ================= 11. VIDEO DARSLIKLAR VA TESTLAR =================
   let currentVideoGrade = 'all';
+  let currentVideoTopic = 'all';
+  let videoSearchQuery = '';
   let activeVideoLesson = null;
 
+  function updateVideoDashboardStats() {
+    const total = typeof VIDEO_LESSONS !== 'undefined' ? VIDEO_LESSONS.length : 0;
+    const watchedCount = (userProfile.watchedVideos && Array.isArray(userProfile.watchedVideos)) ? userProfile.watchedVideos.length : 0;
+    const passedCount = userProfile.passedQuizzes ? Object.keys(userProfile.passedQuizzes).length : 0;
+    const videoScore = userProfile.videoScore || 0;
+
+    if (dom.videoStatTotal) dom.videoStatTotal.textContent = `${total} ta dars`;
+    if (dom.videoStatWatched) dom.videoStatWatched.textContent = `${watchedCount} / ${total}`;
+    if (dom.videoStatQuizzes) dom.videoStatQuizzes.textContent = `${passedCount} ta`;
+    if (dom.videoStatPoints) dom.videoStatPoints.textContent = `${videoScore} ball`;
+
+    const maxMilestones = total > 0 ? total * 2 : 1;
+    const currentMilestones = watchedCount + passedCount;
+    const pct = Math.min(100, Math.round((currentMilestones / maxMilestones) * 100));
+
+    if (dom.videoProgressPercent) dom.videoProgressPercent.textContent = `${pct}%`;
+    if (dom.videoProgressFill) dom.videoProgressFill.style.width = `${pct}%`;
+  }
+
   function renderVideoLessons() {
+    updateVideoDashboardStats();
     if (!dom.videoCardsContainer) return;
 
     let lessons = typeof VIDEO_LESSONS !== 'undefined' ? [...VIDEO_LESSONS] : [];
+
+    // 1. Sinf bo'yicha filtrlash
     if (currentVideoGrade !== 'all') {
       const g = parseInt(currentVideoGrade, 10);
-      lessons = lessons.filter(l => l.grades.includes(g));
+      lessons = lessons.filter(l => l.grades && l.grades.includes(g));
+    }
+
+    // 2. Mavzu (kategoriya) bo'yicha filtrlash
+    if (currentVideoTopic !== 'all') {
+      lessons = lessons.filter(l => l.category === currentVideoTopic);
+    }
+
+    // 3. Kalit so'z / matn qidiruvi bo'yicha filtrlash
+    if (videoSearchQuery && videoSearchQuery.trim() !== '') {
+      const q = videoSearchQuery.toLowerCase().trim();
+      lessons = lessons.filter(l => 
+        (l.title && l.title.toLowerCase().includes(q)) ||
+        (l.summary && l.summary.toLowerCase().includes(q)) ||
+        (l.badge && l.badge.toLowerCase().includes(q)) ||
+        (l.gradeText && l.gradeText.toLowerCase().includes(q)) ||
+        (l.learningGoals && l.learningGoals.some(goal => goal.toLowerCase().includes(q)))
+      );
+    }
+
+    // Sanoq hisoblagichini yangilash
+    if (dom.videoLessonsCounter) {
+      dom.videoLessonsCounter.textContent = `${lessons.length} ta darslik`;
     }
 
     let html = '';
@@ -1085,12 +1141,16 @@
               <div class="video-card-play-btn">▶</div>
             </div>
             <div class="video-card-badges">
-              <span class="video-badge-grade">${lesson.gradeText}</span>
+              <span class="video-badge-grade" style="background:${lesson.color || '#06b6d4'};">${lesson.badge || lesson.gradeText}</span>
               <span class="video-badge-duration">⏱️ ${lesson.duration}</span>
             </div>
           </div>
 
           <div class="video-card-body">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+              <span style="font-size:0.75rem; font-weight:700; color:var(--primary-mint);">${lesson.gradeText}</span>
+              <span style="font-size:0.75rem; color:var(--text-muted);">#${lesson.id}-dars</span>
+            </div>
             <h3 class="video-card-title">${lesson.title}</h3>
             <p class="video-card-summary">${lesson.summary}</p>
 
@@ -1113,21 +1173,56 @@
     });
 
     if (lessons.length === 0) {
-      html = `<div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-dim);">Ushbu sinf uchun videolar tayyorlanmoqda. Boshqa sinflarni ko'ring!</div>`;
+      html = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1.5rem; background: var(--bg-surface); border: 1px dashed var(--border-glass); border-radius: var(--radius-lg); color: var(--text-dim);">
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔍</div>
+          <h3 style="color: var(--text-main); font-size: 1.15rem; margin-bottom: 0.5rem;">Hech qanday video darslik topilmadi</h3>
+          <p style="font-size: 0.9rem; max-width: 420px; margin: 0 auto 1.25rem;">Tanlangan sinf, mavzu yoki qidiruv so'zi bo'yicha natija chiqmadi. Barcha videolarni ko'rish uchun filtrlarni tiklang.</p>
+          <button class="action-btn btn-recycle" id="btn-reset-video-filters" style="margin: 0 auto; padding: 0.6rem 1.4rem; font-size: 0.85rem; border-radius: var(--radius-pill);">
+            <span>🔄 Barcha Videolarni Ko'rsatish</span>
+          </button>
+        </div>
+      `;
     }
 
     dom.videoCardsContainer.innerHTML = html;
 
+    // Reset tugmasi hodisasi
+    const btnReset = document.getElementById('btn-reset-video-filters');
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        currentVideoGrade = 'all';
+        currentVideoTopic = 'all';
+        videoSearchQuery = '';
+        if (dom.videoSearchInput) dom.videoSearchInput.value = '';
+        if (dom.btnClearVideoSearch) dom.btnClearVideoSearch.style.display = 'none';
+
+        if (dom.videoGradeFilters) {
+          dom.videoGradeFilters.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
+          const allGrade = dom.videoGradeFilters.querySelector('[data-grade="all"]');
+          if (allGrade) allGrade.classList.add('active');
+        }
+
+        if (dom.videoTopicFilters) {
+          dom.videoTopicFilters.querySelectorAll('.topic-pill').forEach(p => p.classList.remove('active'));
+          const allTopic = dom.videoTopicFilters.querySelector('[data-topic="all"]');
+          if (allTopic) allTopic.classList.add('active');
+        }
+
+        renderVideoLessons();
+      });
+    }
+
     // Hodisalarni biriktirish
     dom.videoCardsContainer.querySelectorAll('.video-card-thumb-wrap, .btn-card-watch').forEach(el => {
-      el.addEventListener('click', (e) => {
+      el.addEventListener('click', () => {
         const id = parseInt(el.dataset.id, 10);
         openVideoModal(id);
       });
     });
 
     dom.videoCardsContainer.querySelectorAll('.btn-card-quiz').forEach(el => {
-      el.addEventListener('click', (e) => {
+      el.addEventListener('click', () => {
         const id = parseInt(el.dataset.id, 10);
         startQuiz(id);
       });
@@ -2001,6 +2096,38 @@
         currentVideoGrade = pill.dataset.grade;
         renderVideoLessons();
       });
+    });
+  }
+
+  // Video darslik mavzu (kategoriya) filtrlari
+  if (dom.videoTopicFilters) {
+    dom.videoTopicFilters.querySelectorAll('.topic-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        dom.videoTopicFilters.querySelectorAll('.topic-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        currentVideoTopic = pill.dataset.topic;
+        renderVideoLessons();
+      });
+    });
+  }
+
+  // Video darslik qidiruv maydoni
+  if (dom.videoSearchInput) {
+    dom.videoSearchInput.addEventListener('input', (e) => {
+      videoSearchQuery = e.target.value;
+      if (dom.btnClearVideoSearch) {
+        dom.btnClearVideoSearch.style.display = videoSearchQuery.length > 0 ? 'flex' : 'none';
+      }
+      renderVideoLessons();
+    });
+  }
+
+  if (dom.btnClearVideoSearch) {
+    dom.btnClearVideoSearch.addEventListener('click', () => {
+      if (dom.videoSearchInput) dom.videoSearchInput.value = '';
+      videoSearchQuery = '';
+      dom.btnClearVideoSearch.style.display = 'none';
+      renderVideoLessons();
     });
   }
 
