@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EcoSort — Chiqindilarni Saralash O'yini | Maktab va O'quvchilar Uchun</title>
+  <meta name="description" content="EcoSort Game — maktab o'quvchilari va bolalar uchun chiqindilarni to'g'ri saralashni o'rgatuvchi qiziqarli o'yin-treNajor. Kartalarni chapga yoki o'ngga suring va sinflararo reytingda birinchi bo'ling!">
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Favicon icon as SVG -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
+</head>
+<body>
+  <!-- Orqa fon nurlari va dinamik elementlar -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="app-wrapper">
+    <!-- Yuqori Navigatsiya -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="brand-logo" id="brand-logo-btn">
+          <div class="logo-icon-wrap">
+            <span class="logo-leaf">🌱</span>
+            <span class="logo-recycle">♻️</span>
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">EcoSort</span>
+            <span class="brand-tag">Maktab Ekologiyasi</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="header-nav">
+        <button class="nav-tab active" id="tab-game" data-view="game-view">
+          <span class="nav-icon">🎮</span>
+          <span class="nav-label">O'yin</span>
+        </button>
+        <button class="nav-tab" id="tab-videos" data-view="video-view">
+          <span class="nav-icon">🎬</span>
+          <span class="nav-label">Video Darslik</span>
+          <span class="badge-pulse">+Ball</span>
+        </button>
+        <button class="nav-tab" id="tab-photo" data-view="photo-view">
+          <span class="nav-icon">📸</span>
+          <span class="nav-label">Eko-Foto</span>
+          <span class="badge-pulse">+75</span>
+        </button>
+        <button class="nav-tab" id="tab-levels" data-view="levels-view">
+          <span class="nav-icon">🏆</span>
+          <span class="nav-label">Levels Top</span>
+          <span class="badge-pulse">1-5 Sinf</span>
+        </button>
+        <button class="nav-tab" id="tab-guide" data-view="guide-view">
+          <span class="nav-icon">📚</span>
+          <span class="nav-label">Eko-Qoidalar</span>
+        </button>
+        <button class="nav-tab" id="tab-class-mode" data-view="class-mode-view">
+          <span class="nav-icon">👨‍🏫</span>
+          <span class="nav-label">Dars Rejimi</span>
+        </button>
+      </nav>
+
+      <div class="header-right">
+        <!-- O'quvchi Profil Vidjeti (Level & Ballar ko'rsatkichi) -->
+        <div class="user-header-card" id="user-profile-widget" title="Profilni tahrirlash">
+          <div class="user-header-avatar" id="header-avatar-badge">🌱</div>
+          <div class="user-header-info">
+            <div class="user-header-topline">
+              <span class="user-header-name" id="user-display-name">Ali Valiyev</span>
+              <span class="user-header-grade-pill" id="user-display-grade">3-A sinf</span>
+            </div>
+            <div class="user-header-level-line">
+              <span class="user-header-level-name" id="user-display-level">🌱 Starter</span>
+              <span class="user-header-score-text"><strong id="user-display-score">0</strong> ball</span>
+            </div>
+          </div>
+          <button class="profile-quick-edit-btn" id="btn-edit-profile-quick" title="Sinf va ismni o'zgartirish">✏️</button>
+        </div>
+
+        <button class="icon-control-btn" id="sound-toggle-btn" title="Ovozni yoqish / o'chirish" aria-label="Ovoz">
+          <span id="sound-icon">🔊</span>
+        </button>
+        <button class="icon-control-btn" id="help-btn" title="O'yin qo'llanmasi" aria-label="Yordam">
+          <span>❓</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Asosiy Konteyner -->
+    <main class="main-content">
+
+      <!-- ================= 1. O'YIN SAHIFASI (GAME VIEW) ================= -->
+      <section class="view-section active" id="game-view">
+        
+        <!-- O'yin Ko'rsatkichlari (Status Bar) -->
+        <div class="game-hud">
+          <div class="hud-card score-box">
+            <span class="hud-label">To'plangan Ball</span>
+            <div class="hud-value-row">
+              <span class="hud-icon">⭐</span>
+              <span class="hud-value" id="current-score">0</span>
+            </div>
+          </div>
+
+          <div class="hud-card streak-box" id="streak-indicator">
+            <span class="hud-label">Ketma-ket (Kombo)</span>
+            <div class="hud-value-row">
+              <span class="hud-icon streak-fire">🔥</span>
+              <span class="hud-value" id="current-streak">0</span>
+              <span class="streak-multiplier" id="streak-multiplier">x1</span>
+            </div>
+          </div>
+
+          <div class="hud-card lives-box">
+            <span class="hud-label" id="mode-life-label">Imkoniyatlar</span>
+            <div class="hearts-row" id="hearts-container">
+              <span class="heart-icon active">❤️</span>
+              <span class="heart-icon active">❤️</span>
+              <span class="heart-icon active">❤️</span>
+            </div>
+          </div>
+
+          <div class="hud-card progress-box">
+            <div class="progress-info-row">
+              <span class="hud-label">Karta</span>
+              <span class="hud-counter" id="card-counter">1 / 20</span>
+            </div>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" id="game-progress-fill" style="width: 5%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Yo'naltiruvchi Banner / Swipe Zonasi -->
+        <div class="swipe-arena-container">
+          
+          <!-- Chap indikator (Umumiy axlat) -->
+          <div class="zone-indicator zone-left" id="zone-left-indicator">
+            <div class="zone-badge">
+              <span class="zone-icon">🗑️</span>
+              <div class="zone-texts">
+                <strong class="zone-title">Umumiy Axlat</strong>
+                <span class="zone-sub">Chapga suring (← A)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- KARTALAR TAYANCHI (Card Swiping Deck) -->
+          <div class="card-deck" id="card-deck">
+            <!-- Dinamik ravishda 3 ta karta yuklanadi: joriy, keyingi va zaxira -->
+            <div class="card-placeholder" id="deck-placeholder">
+              <div class="spinner"></div>
+              <p>Kartalar tayyorlanmoqda...</p>
+            </div>
+          </div>
+
+          <!-- O'ng indikator (Qayta ishlash) -->
+          <div class="zone-indicator zone-right" id="zone-right-indicator">
+            <div class="zone-badge">
+              <span class="zone-icon">♻️</span>
+              <div class="zone-texts">
+                <strong class="zone-title">Qayta Ishlash</strong>
+                <span class="zone-sub">O'ngga suring (D →)</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Boshqaruv Tugmalari (Desktop & Mobil uchun qulay) -->
+        <div class="game-controls">
+          <button class="action-btn btn-trash" id="btn-swipe-left" aria-label="Umumiy axlatga tashlash">
+            <div class="btn-icon-circle">
+              <span>🗑️</span>
+            </div>
+            <div class="btn-text-wrap">
+              <strong>Umumiy Axlat</strong>
+              <small>← Chapga surish</small>
+            </div>
+          </button>
+
+          <button class="action-btn btn-hint" id="btn-show-hint" title="Maslahat olish" aria-label="Maslahat">
+            <div class="btn-icon-circle">
+              <span>💡</span>
+            </div>
+            <span class="btn-hint-text">Maslahat</span>
+          </button>
+
+          <button class="action-btn btn-recycle" id="btn-swipe-right" aria-label="Qayta ishlashga tashlash">
+            <div class="btn-icon-circle">
+              <span>♻️</span>
+            </div>
+            <div class="btn-text-wrap">
+              <strong>Qayta Ishlash</strong>
+              <small>O'ngga surish →</small>
+            </div>
+          </button>
+        </div>
+
+        <!-- Pastki qiziqarli eko-fakt lentasi -->
+        <div class="eco-fact-ticker" id="eco-fact-ticker">
+          <span class="ticker-badge">🌱 Eko-Fakt:</span>
+          <span class="ticker-text" id="ticker-text">Yuklanmoqda...</span>
+        </div>
+
+      </section>
+
+      <!-- ================= 2. VIDEO DARSLIKLAR SAHIFASI (VIDEO VIEW) ================= -->
+      <section class="view-section" id="video-view">
+        <div class="section-title-wrap">
+          <div class="view-badge-pill">🎬 Ta'limiy Video Darsliklar</div>
+          <h1 class="section-title">Bolalar Uchun Qiziqarli Eko-Darslar</h1>
+          <p class="section-subtitle">Videolarni tomosha qiling (+50 ball) va dars bo'yicha test savollariga javob berib qo'shimcha ballar to'plang (+75 ball)!</p>
+        </div>
+
+        <!-- Sinflar bo'yicha filter -->
+        <div class="grade-filter-bar">
+          <span class="filter-label">Sinfingizga mosini tanlang:</span>
+          <div class="filter-pills" id="video-grade-filters">
+            <button class="grade-pill active" data-grade="all">Barchasi (1-5 sinflar)</button>
+            <button class="grade-pill" data-grade="1">1-sinf</button>
+            <button class="grade-pill" data-grade="2">2-sinf</button>
+            <button class="grade-pill" data-grade="3">3-sinf</button>
+            <button class="grade-pill" data-grade="4">4-sinf</button>
+            <button class="grade-pill" data-grade="5">5-sinf</button>
+          </div>
+        </div>
+
+        <!-- Video kartalari tarmog'i -->
+        <div class="video-lessons-grid" id="video-cards-container">
+          <!-- JS orqali VIDEO_LESSONS dan to'ldiriladi -->
+        </div>
+
+        <div class="video-footer-banner glass-panel">
+          <div class="footer-banner-icon">💡</div>
+          <div class="footer-banner-text">
+            <strong>Bolalar va o'quvchilar uchun eslatma:</strong>
+            <p>Har bir videodan so'ng beriladigan 3 ta savolga to'g'ri javob berib, darajangizni <strong>Starter</strong> dan <strong>Legend</strong> ga yanada tezroq oshirishingiz mumkin!</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. EKO-FOTO SAHIFASI (PHOTO VIEW) ================= -->
+      <section class="view-section" id="photo-view">
+        <div class="section-title-wrap">
+          <div class="view-badge-pill">📸 Amaliy Eko-Harakat</div>
+          <h1 class="section-title">Saralash Isboti & Eko-Foto Ballar</h1>
+          <p class="section-subtitle">Uyda yoki maktabda chiqindini to'g'ri qutiga solayotganingizni rasmga oling va yuklang. Har bir to'g'ri harakat uchun <strong>+75 ball</strong> oling!</p>
+        </div>
+
+        <div class="photo-section-grid">
+          <!-- Chap ustun: Yangi Foto Yuklash Formasi -->
+          <div class="photo-upload-card glass-panel">
+            <div class="card-head-line">
+              <span class="card-head-icon">📤</span>
+              <div>
+                <h3>Yangi Eko-Harakatni Yuborish</h3>
+                <span class="card-head-sub">AI Eko-Nazoratchi tekshiradi va tasdiqlaydi</span>
+              </div>
+            </div>
+
+            <form class="photo-submit-form" id="photo-submit-form">
+              <!-- O'quvchi ma'lumotlari -->
+              <div class="form-row two-cols">
+                <div class="form-group">
+                  <label for="photo-student-name">Ismingiz:</label>
+                  <input type="text" id="photo-student-name" placeholder="Masalan: Ali Valiyev" required maxlength="30">
+                </div>
+                <div class="form-group">
+                  <label for="photo-student-grade">Sinfingiz:</label>
+                  <select id="photo-student-grade" required>
+                    <option value="1">1-sinf</option>
+                    <option value="2">2-sinf</option>
+                    <option value="3" selected>3-sinf</option>
+                    <option value="4">4-sinf</option>
+                    <option value="5">5-sinf</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Chiqindi turi tanlash -->
+              <div class="form-group">
+                <label>Qanday chiqindini saraladingiz?</label>
+                <div class="waste-type-selectors" id="photo-waste-selectors">
+                  <button type="button" class="waste-type-btn active" data-type="Plastik PET idish">🧴 Plastik Idish</button>
+                  <button type="button" class="waste-type-btn" data-type="Qog'oz va Makulatura">📦 Qog'oz / Karton</button>
+                  <button type="button" class="waste-type-btn" data-type="Alyuminiy banka">🥫 Alyuminiy Banka</button>
+                  <button type="button" class="waste-type-btn" data-type="Shisha idish">🍾 Shisha Idish</button>
+                  <button type="button" class="waste-type-btn" data-type="Batareya (Xavfli)">🔋 Batareya</button>
+                  <button type="button" class="waste-type-btn" data-type="Organik qoldiq">🍏 Organik Chiqindi</button>
+                </div>
+              </div>
+
+              <!-- Qaysi qutiga tashlandi -->
+              <div class="form-group">
+                <label>Qaysi maxsus qutiga soldingiz?</label>
+                <div class="bin-type-selectors" id="photo-bin-selectors">
+                  <button type="button" class="bin-select-btn active" data-bin="recycle" data-label="♻️ Yashil / Ko'k (Qayta ishlash)">
+                    <span>♻️</span> Qayta Ishlash Qutisi
+                  </button>
+                  <button type="button" class="bin-select-btn" data-bin="general" data-label="🗑️ Umumiy Axlat Qutisi">
+                    <span>🗑️</span> Umumiy Chiqindi
+                  </button>
+                  <button type="button" class="bin-select-btn" data-bin="hazard" data-label="⚡ Xavfli Chiqindilar Qutisi">
+                    <span>⚡</span> Maxsus Quti (Batareya)
+                  </button>
+                </div>
+              </div>
+
+              <!-- Rasm yuklash maydoni -->
+              <div class="form-group">
+                <label>Saralayotganingiz aks etgan fotosurat:</label>
+                <div class="photo-dropzone" id="photo-dropzone">
+                  <input type="file" id="photo-file-input" accept="image/*" class="file-input-hidden">
+                  <div class="dropzone-content" id="dropzone-prompt">
+                    <span class="dropzone-icon">📷</span>
+                    <strong>Suratni tanlang yoki shu yerga tashlang</strong>
+                    <small>PNG, JPG yoki mobil kameradan olingan surat</small>
+                  </div>
+                  <!-- Preview -->
+                  <div class="dropzone-preview" id="dropzone-preview" style="display:none;">
+                    <img id="preview-img" src="" alt="Yuklangan surat">
+                    <button type="button" class="btn-remove-preview" id="btn-remove-preview" title="O'chirish">✕</button>
+                  </div>
+                </div>
+
+                <!-- Tezkor sinab ko'rish uchun namuna fotosuratlar -->
+                <div class="sample-photos-row">
+                  <span class="sample-label">💡 Yoki tezkor sinov uchun namunadan tanlang:</span>
+                  <div class="sample-photo-btns">
+                    <button type="button" class="sample-btn" data-img="assets/kid_plastic.jpg" data-waste="Plastik PET idish" data-bin="recycle">
+                      🧴 Plastik saralash
+                    </button>
+                    <button type="button" class="sample-btn" data-img="assets/kid_paper.jpg" data-waste="Qog'oz va Makulatura" data-bin="recycle">
+                      📦 Qog'oz saralash
+                    </button>
+                    <button type="button" class="sample-btn" data-img="assets/kid_cans.jpg" data-waste="Alyuminiy banka" data-bin="recycle">
+                      🥫 Metall saralash
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Izoh -->
+              <div class="form-group">
+                <label for="photo-note">Qisqa izoh (shioringiz yoki qayerda saraladingiz):</label>
+                <textarea id="photo-note" rows="2" placeholder="Masalan: Tanaffusda do'stlarim bilan maktab oshxonasidagi qutilarga to'g'ri tashladik!"></textarea>
+              </div>
+
+              <button type="submit" class="btn-primary-action btn-block" id="btn-submit-photo">
+                <span>🚀 Tekshiruvga Yuborish & +75 Ball Olish</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- O'ng ustun: Tasdiqlangan Eko-Harakatlar Lentasi (Feed) -->
+          <div class="photo-feed-container glass-panel">
+            <div class="feed-header-line">
+              <div>
+                <h3>🌟 Tasdiqlangan Eko-Harakatlar</h3>
+                <span class="card-head-sub">O'quvchilar tomonidan yuklangan va tekshirilgan saralash suratlari</span>
+              </div>
+              <span class="feed-count-badge" id="feed-items-count">3 ta tasdiqlangan</span>
+            </div>
+
+            <div class="photo-feed-list" id="community-photos-feed">
+              <!-- JS orqali to'ldiriladi -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 4. LEVELS TOP SAHIFASI (LEVELS TOP VIEW) ================= -->
+      <section class="view-section" id="levels-view">
+        <div class="levels-top-header">
+          <div class="section-title-wrap">
+            <div class="view-badge-pill">🏆 1-5 Sinflar Reytingi</div>
+            <h1 class="section-title">Levels Top: Starter dan Legend gacha!</h1>
+            <p class="section-subtitle">Chiqindilarni saralash bo'yicha to'plangan umumiy ballar, eko-darajalar va maktab chempionlari</p>
+          </div>
+        </div>
+
+        <!-- Foydalanuvchining Shaxsiy Eko-Level Kartasi -->
+        <div class="my-level-card glass-panel" id="user-level-card">
+          <div class="my-level-left">
+            <div class="my-level-avatar-ring">
+              <span class="my-level-avatar" id="my-card-icon">🌱</span>
+              <span class="my-level-sparkle">✨</span>
+            </div>
+            <div class="my-level-details">
+              <div class="my-level-row">
+                <h2 id="my-card-name">Ali Valiyev</h2>
+                <span class="class-tag" id="my-card-grade">3-A sinf</span>
+                <span class="school-tag" id="my-card-school">21-maktab</span>
+              </div>
+              <div class="my-level-tier-badge" id="my-card-tier-badge">
+                <span id="my-card-tier-title">🌱 Starter (Boshlovchi Eko-Do'st)</span>
+              </div>
+              <p class="my-level-quote" id="my-card-desc">Ekologiya dunyosiga ilk qadam! Chiqindilarni saralash asoslarini o'rganmoqda.</p>
+            </div>
+          </div>
+
+          <div class="my-level-right">
+            <div class="my-level-score-box">
+              <span class="my-score-label">Jami To'plangan Eko-Ball</span>
+              <div class="my-score-number-wrap">
+                <span class="my-score-star">⭐</span>
+                <strong class="my-score-val" id="my-card-score">0</strong>
+                <span class="my-score-unit">ball</span>
+              </div>
+            </div>
+
+            <!-- Keyingi darajaga progress -->
+            <div class="my-progress-block">
+              <div class="progress-labels-row">
+                <span class="next-level-label">Keyingi daraja: <strong id="next-level-title">🌿 Explorer</strong></span>
+                <span class="next-needed-label" id="next-level-needed">Yana 201 ball kerak</span>
+              </div>
+              <div class="level-progress-bar-track">
+                <div class="level-progress-bar-fill" id="my-level-progress-fill" style="width: 0%;"></div>
+              </div>
+              <div class="progress-percent-text" id="my-level-percent-text">0% bajarildi</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 Daraja Pog'onasi (Level Tiers Roadmap) -->
+        <div class="level-tiers-showcase">
+          <div class="tiers-header">
+            <h3>🌱 Eko-Darajalar Pog'onasi (Starter dan Legend gacha):</h3>
+            <span class="tiers-sub">Har bir darajaga erishish uchun kerakli ballar va unvonlar</span>
+          </div>
+
+          <div class="level-tiers-grid" id="level-tiers-container">
+            <!-- JS orqali LEVEL_DEFINITIONS asosida to'ldiriladi -->
+          </div>
+        </div>
+
+        <!-- TOP REYTING (1-5 Sinflar & O'quvchilar) -->
+        <div class="levels-leaderboard-section">
+          <!-- Filtrlar va Tablar -->
+          <div class="leaderboard-controls-bar">
+            <!-- 1-5 Sinf Filtrlari -->
+            <div class="grade-filter-pills" id="leaderboard-grade-filters">
+              <span class="filter-caption">Sinf bo'yicha:</span>
+              <button class="lb-grade-pill active" data-grade="all">Barcha Sinflar (1-5)</button>
+              <button class="lb-grade-pill" data-grade="1">1-sinf</button>
+              <button class="lb-grade-pill" data-grade="2">2-sinf</button>
+              <button class="lb-grade-pill" data-grade="3">3-sinf</button>
+              <button class="lb-grade-pill" data-grade="4">4-sinf</button>
+              <button class="lb-grade-pill" data-grade="5">5-sinf</button>
+            </div>
+
+            <!-- Tab Switcher (O'quvchilar / Sinflar) -->
+            <div class="leaderboard-tabs">
+              <button class="lb-tab-btn active" id="lb-tab-students">
+                <span>🥇</span> O'quvchilar Topi
+              </button>
+              <button class="lb-tab-btn" id="lb-tab-classes">
+                <span>🏫</span> Sinflar Chempionati
+              </button>
+            </div>
+          </div>
+
+          <!-- TOP 3 PODIUM (1-o'rin oltin, 2 kumush, 3 bronza) -->
+          <div class="podium-container" id="levels-podium-wrapper">
+            <!-- Dinamik ravishda JS orqali to'ldiriladi -->
+          </div>
+
+          <!-- Reyting Jadvali -->
+          <div class="table-card glass-panel">
+            <div class="table-header-bar">
+              <h3 id="table-view-title">Levels Top — O'quvchilar Reytingi</h3>
+              <div class="table-actions">
+                <button class="btn-ghost" id="btn-open-game-from-lb">🎮 O'ynab Ball To'plash</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="leaderboard-table" id="leaderboard-table">
+                <thead id="leaderboard-thead">
+                  <tr>
+                    <th>O'rin</th>
+                    <th>O'quvchi & Sinf</th>
+                    <th>Maktab</th>
+                    <th>Darajasi (Level)</th>
+                    <th>Aniqlik</th>
+                    <th>Eko-Ball</th>
+                    <th>Faollik</th>
+                  </tr>
+                </thead>
+                <tbody id="leaderboard-tbody">
+                  <!-- JS to'ldiradi -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="leaderboard-footer-note">
+          <p>💡 <strong>Eko-Eslatma:</strong> O'yinda, video darsliklarda va foto saralashda to'plagan har bir balingiz umumiy profilingizga qo'shiladi va sizni <strong>Starter</strong> darajasidan <strong>Legend</strong> darajasiga ko'taradi!</p>
+        </div>
+      </section>
+
+      <!-- ================= 3. EKO-QOIDALAR ENSIKLOPEDIYASI (GUIDE) ================= -->
+      <section class="view-section" id="guide-view">
+        <div class="section-title-wrap text-center">
+          <h1 class="section-title">📚 Chiqindilarni Saralash Qoidalari</h1>
+          <p class="section-subtitle">Maktab va uyda chiqindilarni to'g'ri saralash bo'yicha vizual qo'llanma</p>
+        </div>
+
+        <div class="guide-categories-grid">
+          <!-- 1. Qayta ishlanadiganlar -->
+          <div class="guide-card card-recyclable">
+            <div class="guide-card-head">
+              <span class="guide-icon">♻️</span>
+              <div>
+                <h3>Qayta Ishlanadigan Chiqindilar</h3>
+                <span class="guide-badge green">O'ngga suriladi</span>
+              </div>
+            </div>
+            <p class="guide-desc">Ushbu mahsulotlar zavodlarda qayta ishlanib, yangi buyumlar tayyorlash uchun xomashyo bo'ladi:</p>
+            <ul class="guide-list">
+              <li><strong>Plastik PET (1) va HDPE (2):</strong> Toza suv, sharbat, sut va shampun idishlari.</li>
+              <li><strong>Toza qog'oz va karton:</strong> Daftarlar, qutilar, kitoblar, jurnallar.</li>
+              <li><strong>Shisha idishlar:</strong> Bankalar, shisha butilkalar (singan oyna emas!).</li>
+              <li><strong>Metall:</strong> Alyuminiy kola bankalari, toza konserva qutilari.</li>
+            </ul>
+            <div class="guide-alert green-alert">
+              ✨ <strong>Asosiy qoida:</strong> Idishlar ichi toza va quruq bo'lishi lozim!
+            </div>
+          </div>
+
+          <!-- 2. Umumiy chiqindilar -->
+          <div class="guide-card card-general">
+            <div class="guide-card-head">
+              <span class="guide-icon">🗑️</span>
+              <div>
+                <h3>Umumiy (Qayta ishlanmaydigan)</h3>
+                <span class="guide-badge orange">Chapga suriladi</span>
+              </div>
+            </div>
+            <p class="guide-desc">Qayta ishlash texnologiyasi yo'q yoki ifloslangan bo'lgani sababli oddiy poligon axlatiga boradi:</p>
+            <ul class="guide-list">
+              <li><strong>Yog'li karton va salfetkalar:</strong> Yog' tekkan pitsa qutilari, tualet qog'ozi.</li>
+              <li><strong>Ko'p qatlamli paketlar:</strong> Chipslar va shokoladlarning yaltiroq folgali o'ramlari.</li>
+              <li><strong>Aralash buyumlar:</strong> Tish cho'tkalari, arzon plastik stakanlar (PS-6).</li>
+              <li><strong>Keramika va deraza oynalari:</strong> Chinni piyolalar, deraza sinig'i (ular idish shishasi bilan erimaydi!).</li>
+            </ul>
+            <div class="guide-alert orange-alert">
+              ⚠️ <strong>Muhim:</strong> Yog'li qog'oz butun boshli qayta ishlash partiyasini buzishi mumkin!
+            </div>
+          </div>
+
+          <!-- 3. Xavfli chiqindilar -->
+          <div class="guide-card card-hazard">
+            <div class="guide-card-head">
+              <span class="guide-icon">⚡</span>
+              <div>
+                <h3>Xavfli Chiqindilar (Maxsus punkt)</h3>
+                <span class="guide-badge red">Maxsus quti</span>
+              </div>
+            </div>
+            <p class="guide-desc">Ushbu buyumlarni aslo oddiy axlatga tashlamaslik kerak. Maxsus utilizatsiya talab etiladi:</p>
+            <ul class="guide-list">
+              <li><strong>Batareyalar va akkumulyatorlar:</strong> 1 ta batareya 20 kv.m yer yoki 400 litr suvni zaharlaydi.</li>
+              <li><strong>Simobli lampalar va termometrlar:</strong> Zaharli simob bug'lari bo'lgani uchun alohida topshiriladi.</li>
+              <li><strong>Elektronika:</strong> Eski telefonlar va kompyuter qismlari.</li>
+            </ul>
+            <div class="guide-alert red-alert">
+              🛑 <strong>Tavsiya:</strong> Maktabingizda alohida batareya qutisi o'rnating!
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 4. DARS REJIMI (CLASSROOM / SMART BOARD) ================= -->
+      <section class="view-section" id="class-mode-view">
+        <div class="class-mode-hero glass-panel">
+          <div class="class-mode-content">
+            <span class="hero-badge">👨‍🏫 O'qituvchilar va Sinf Rahbarlari Uchun</span>
+            <h1 class="hero-title">Ekologiya Darsi va Interaktiv Doska Rejimi</h1>
+            <p class="hero-desc">
+              Ushbu rejim maktab sinf xonalarida, interaktiv doskada yoki proyektor orqali o'quvchilar bilan jamoaviy dars o'tish uchun maxsus moslashtirilgan.
+            </p>
+            
+            <div class="class-features-grid">
+              <div class="feature-item">
+                <span class="feat-icon">🎯</span>
+                <div>
+                  <strong>Cheksiz Mashg'ulot Rejimi</strong>
+                  <p>Jonlar tugab o'yin to'xtab qolmaydi, har bir kartani sinf bilan erkin tahlil qilasiz.</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feat-icon">💬</span>
+                <div>
+                  <strong>Batafsil "Nega?" Tushuntirishlari</strong>
+                  <p>Har bir javobdan so'ng kartaning nima uchun shunday saralanishi katta ekranda ko'rsatiladi.</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <span class="feat-icon">⚔️</span>
+                <div>
+                  <strong>Sinflararo Bellashuv</strong>
+                  <p>Dars oxirida sinf nomidan rekord o'rnatib, umumiy maktab reytingiga qo'shilish imkoniyati.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="class-mode-actions">
+              <button class="btn-primary-action" id="start-class-mode-btn">
+                <span>🚀 Dars Mashg'ulotini Boshlash (Cheksiz Jon)</span>
+              </button>
+              <button class="btn-secondary-action" id="view-lesson-plan-btn">
+                <span>📋 15 Daqiqalik Dars Rejasi</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 15 Daqiqalik Dars Rejasi Bloki -->
+        <div class="lesson-plan-card glass-panel" id="lesson-plan-container">
+          <h3>📋 Sinf Soati Uchun 15 Daqiqalik Eko-Dars Ssenariysi:</h3>
+          <div class="timeline-steps">
+            <div class="step-card">
+              <div class="step-num">1</div>
+              <div>
+                <strong>3 daqiqa: Kirish suhbati</strong>
+                <p>O'quvchilardan bugun qanday chiqindilar chiqarganini so'rang (qog'oz, shirinlik o'rami, suv idishi).</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-num">2</div>
+              <div>
+                <strong>8 daqiqa: EcoSort interaktiv o'yini</strong>
+                <p>O'quvchilarni galma-gal doskaga chiqarib yoki umumiy ovoz berish orqali kartalarni surish.</p>
+              </div>
+            </div>
+            <div class="step-card">
+              <div class="step-num">3</div>
+              <div>
+                <strong>4 daqiqa: Xulosa va Reyting</strong>
+                <p>Sinf hisobini jadvalga yozish va xonada qog'oz qutisini tashkil etish bo'yicha kelishish.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Pastki Qism (Footer) -->
+    <footer class="app-footer">
+      <div class="footer-inner">
+        <p>🌱 <strong>EcoSort</strong> — O'zbekiston maktablari va o'quvchilari uchun ekologik ta'limiy loyiha.</p>
+        <div class="footer-shortcuts">
+          <span>Tugmalar: <strong>← Chapga (Umumiy)</strong> | <strong>O'ngga (Qayta ishlash) →</strong> | <strong>Bo'shliq (Maslahat)</strong></span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ================= MODALLAR VA XABARNOMALAR ================= -->
+
+  <!-- 1. Ta'limiy Tushuntirish Modali (Swipe natijasi yoki maslahat bosilganda) -->
+  <div class="modal-backdrop" id="explanation-modal">
+    <div class="modal-dialog">
+      <div class="modal-header" id="modal-feedback-header">
+        <div class="modal-badge-status" id="modal-status-badge">
+          <span id="modal-status-icon">✅</span>
+          <span id="modal-status-title">To'g'ri Saraladingiz!</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-explanation" aria-label="Yopish">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="item-visual-preview" id="modal-item-preview">
+          <!-- Item svg + nomi -->
+        </div>
+
+        <div class="explanation-box" id="modal-explanation-box">
+          <h4 id="modal-item-name">Plastik suv idishi</h4>
+          <p class="explanation-text" id="modal-item-explanation">...</p>
+        </div>
+
+        <div class="modal-tip-box">
+          <span class="tip-icon">💡</span>
+          <div>
+            <strong>Amaliy maslahat:</strong>
+            <p id="modal-item-tip">...</p>
+          </div>
+        </div>
+
+        <div class="modal-fact-box">
+          <span class="fact-icon">🌟</span>
+          <div>
+            <strong>Bilasizmi?</strong>
+            <p id="modal-item-fact">...</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-primary-action" id="btn-modal-continue">
+          Keyingisi davom etish ➔
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. O'yin Tugashi / Natijani Saqlash Modali (Game Over) -->
+  <div class="modal-backdrop" id="game-over-modal">
+    <div class="modal-dialog celebration-dialog">
+      <div class="celebration-hero">
+        <div class="trophy-bounce" id="gameover-trophy">🏆</div>
+        <h2 id="gameover-title">Ajoyib Natija!</h2>
+        <p id="gameover-subtitle">Siz barcha chiqindilarni muvaffaqiyatli saraladingiz!</p>
+      </div>
+
+      <div class="gameover-stats-grid">
+        <div class="gameover-stat-card">
+          <span class="stat-label">To'plangan Ball</span>
+          <strong class="stat-val" id="final-score-val">0</strong>
+        </div>
+        <div class="gameover-stat-card">
+          <span class="stat-label">Saralash Aniqligi</span>
+          <strong class="stat-val text-green" id="final-accuracy-val">100%</strong>
+        </div>
+        <div class="gameover-stat-card">
+          <span class="stat-label">Eng Katta Kombo</span>
+          <strong class="stat-val text-orange" id="final-streak-val">🔥 0</strong>
+        </div>
+      </div>
+
+      <!-- Sinf va O'quvchi ma'lumotlarini kiritish formasi -->
+      <form class="save-score-form" id="save-score-form">
+        <h3>Natijangizni Maktab va Sinf Reytingiga Qo'shing:</h3>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="input-student-name">Ismingiz va Familiyangiz:</label>
+            <input type="text" id="input-student-name" placeholder="Masalan: Ali Valiyev" required maxlength="30">
+          </div>
+        </div>
+
+        <div class="form-row three-cols">
+          <div class="form-group">
+            <label for="input-class-grade">Sinf (1-5):</label>
+            <select id="input-class-grade" required>
+              <option value="1">1-sinf</option>
+              <option value="2">2-sinf</option>
+              <option value="3" selected>3-sinf</option>
+              <option value="4">4-sinf</option>
+              <option value="5">5-sinf</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="input-class-letter">Harfi:</label>
+            <input type="text" id="input-class-letter" placeholder="A" value="A" required maxlength="4">
+          </div>
+          <div class="form-group">
+            <label for="input-school-name">Maktab:</label>
+            <input type="text" id="input-school-name" placeholder="21-maktab" required maxlength="30">
+          </div>
+        </div>
+
+        <div class="form-buttons">
+          <button type="submit" class="btn-primary-action" id="btn-save-score">
+            <span>🚀 Reyting va Levels Top ga Yozish</span>
+          </button>
+          <button type="button" class="btn-secondary-action" id="btn-play-again">
+            <span>🔄 Qayta O'ynash</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Yordam / Qo'llanma Modali -->
+  <div class="modal-backdrop" id="help-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-badge-status neutral">
+          <span>📖</span>
+          <span>EcoSort O'yin Qo'llanmasi</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-help">✕</button>
+      </div>
+      <div class="modal-body">
+        <h4>O'yin Qoidasi Juda Oddiy:</h4>
+        <div class="rules-visual-row">
+          <div class="rule-box trash">
+            <span class="rule-icon">🗑️</span>
+            <strong>Chapga surish (←)</strong>
+            <p>Qayta ishlanmaydigan, yog'li yoki umumiy chiqindilar uchun.</p>
+          </div>
+          <div class="rule-box recycle">
+            <span class="rule-icon">♻️</span>
+            <strong>O'ngga surish (→)</strong>
+            <p>Toza plastik, qog'oz, shisha va metall uchun.</p>
+          </div>
+        </div>
+        <div class="help-tips-list">
+          <p>❤️ <strong>Jonlar:</strong> Har bir xato javobda bitta jon kamayadi (standart o'yinda 3 ta jon).</p>
+          <p>🔥 <strong>Kombo:</strong> Ketma-ket to'g'ri topsangiz, ko'paytirgich (x2, x3) faollashadi va ballar ko'payadi!</p>
+          <p>🏆 <strong>Levels Top:</strong> O'yinda, videolarda va fotolarda to'plangan ballar sizni <strong>Starter</strong> dan <strong>Legend</strong> darajasiga ko'taradi!</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary-action" id="btn-close-help-confirm">Tushunarli, boshladik! 🚀</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Video Darslik Modali (Video Player) -->
+  <div class="modal-backdrop" id="video-player-modal">
+    <div class="modal-dialog video-player-dialog">
+      <div class="modal-header">
+        <div class="modal-badge-status">
+          <span class="modal-icon-glow">🎬</span>
+          <span id="video-modal-title">Video Darslik</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-video">✕</button>
+      </div>
+
+      <div class="modal-body video-modal-body">
+        <div class="video-container-wrap" id="video-player-wrapper">
+          <!-- Video Iframe yoki Interaktiv Player -->
+          <iframe id="video-iframe" src="" title="Eco Lesson" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+
+        <div class="video-lesson-info-box">
+          <div class="lesson-meta-row">
+            <span class="lesson-grade-tag" id="video-modal-grade">1-3 sinflar uchun</span>
+            <span class="lesson-duration-tag" id="video-modal-duration">⏱️ 3 daqiqa</span>
+            <span class="lesson-points-tag">⭐ +50 ball tomosha uchun</span>
+            <span class="lesson-quiz-tag">📝 +75 ball test uchun</span>
+          </div>
+          <p class="lesson-modal-summary" id="video-modal-summary">Darslik tavsifi...</p>
+
+          <div class="learning-points-card">
+            <strong>🎯 Bu darsda bilib olasiz:</strong>
+            <ul id="video-modal-goals">
+              <!-- JS to'ldiradi -->
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer video-modal-footer">
+        <button class="btn-secondary-action" id="btn-watch-complete">
+          <span>✅ Videoni Ko'rdim (+50 Ball)</span>
+        </button>
+        <button class="btn-primary-action" id="btn-start-quiz-from-video">
+          <span>📝 Testni Topshirish (+75 Ball) ➔</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Video Mavzusi Bo'yicha Interaktiv Test Modali (Quiz Modal) -->
+  <div class="modal-backdrop" id="quiz-modal">
+    <div class="modal-dialog quiz-dialog">
+      <div class="modal-header">
+        <div class="modal-badge-status">
+          <span>📝</span>
+          <span id="quiz-modal-title">Eko-Test: 3 ta savol</span>
+        </div>
+        <div class="quiz-step-indicator" id="quiz-step-indicator">Savol 1 / 3</div>
+        <button class="btn-close-modal" id="btn-close-quiz">✕</button>
+      </div>
+
+      <div class="modal-body quiz-modal-body">
+        <!-- Progress Bar -->
+        <div class="quiz-progress-track">
+          <div class="quiz-progress-fill" id="quiz-progress-fill" style="width: 33%;"></div>
+        </div>
+
+        <!-- Savol Kartasi -->
+        <div class="quiz-question-box" id="quiz-question-view">
+          <h3 class="quiz-question-text" id="quiz-question-text">Savol yuklanmoqda...</h3>
+          
+          <div class="quiz-options-list" id="quiz-options-list">
+            <!-- 3 ta variant JS orqali chiqariladi -->
+          </div>
+
+          <!-- Natija va Tushuntirish qutisi (Javob berilgach chiqadi) -->
+          <div class="quiz-feedback-box" id="quiz-feedback-box" style="display:none;">
+            <div class="feedback-badge" id="quiz-feedback-badge">✅ To'g'ri!</div>
+            <p class="feedback-text" id="quiz-feedback-text">Izoh...</p>
+          </div>
+        </div>
+
+        <!-- Yakuniy Natija Kartasi (3 ta savoldan so'ng) -->
+        <div class="quiz-results-card" id="quiz-results-view" style="display:none;">
+          <div class="results-trophy-bounce" id="quiz-result-trophy">🎉</div>
+          <h2 id="quiz-result-title">Ajoyib Bilim!</h2>
+          <p id="quiz-result-sub">Siz barcha savollarga muvaffaqiyatli javob berdingiz!</p>
+
+          <div class="quiz-score-highlight">
+            <span class="score-sparkle">⭐</span>
+            <strong id="quiz-earned-points">+75</strong>
+            <span>ball to'pladingiz!</span>
+          </div>
+
+          <p class="quiz-level-progress-notice" id="quiz-level-notice">Darajangizga yangi ballar qo'shildi!</p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-primary-action" id="btn-quiz-next" style="display:none;">
+          Keyingi Savol ➔
+        </button>
+        <button class="btn-primary-action" id="btn-quiz-finish" style="display:none;">
+          Yopish & Levels Top ga O'tish 🚀
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. AI Eko-Nazoratchi Skanner Modali (Foto Tasdiqlash) -->
+  <div class="modal-backdrop" id="photo-verify-modal">
+    <div class="modal-dialog scanner-dialog">
+      <div class="scanner-hero">
+        <div class="scanner-radar-wrap">
+          <div class="radar-sweep"></div>
+          <span class="radar-center-icon">🤖</span>
+        </div>
+        <h2 id="scanner-title">Eko-Nazoratchi Tekshirmoqda...</h2>
+        <p id="scanner-status">Yuklangan fotosurat saralash qoidalariga solishtirilmoqda</p>
+      </div>
+
+      <div class="scanner-body">
+        <div class="scanner-preview-thumb">
+          <img id="scanner-img-preview" src="" alt="Tekshirilayotgan rasm">
+          <div class="laser-scanner-line" id="scanner-laser"></div>
+        </div>
+
+        <div class="scanner-steps-list">
+          <div class="scanner-step-row active" id="scan-step-1">
+            <span class="step-dot"></span>
+            <span>Chiqindi turi tanildi: <strong id="scan-detected-waste">Plastik PET</strong></span>
+          </div>
+          <div class="scanner-step-row" id="scan-step-2">
+            <span class="step-dot"></span>
+            <span>Mo'ljallangan quti tekshirildi: <strong id="scan-detected-bin">Qayta ishlash</strong></span>
+          </div>
+          <div class="scanner-step-row" id="scan-step-3">
+            <span class="step-dot"></span>
+            <span>To'g'rilik darajasi: <strong class="text-green">100% Mos keldi!</strong></span>
+          </div>
+        </div>
+
+        <div class="scanner-result-box" id="scanner-result-box" style="display:none;">
+          <div class="result-badge-success">✅ Tasdiqlandi: +75 Ball Berildi!</div>
+          <p>Harakatingiz jamoat lentasiga qo'shildi va umumiy darajangiz oshirildi.</p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-primary-action" id="btn-close-scanner" style="display:none;">
+          Ofarin, Davom Etish! 🚀
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Yangi Darajaga Chiqish Dabdabali Modali (Level Up Celebration) -->
+  <div class="modal-backdrop" id="level-up-modal">
+    <div class="modal-dialog level-up-dialog">
+      <div class="level-up-confetti-burst">✨</div>
+      <div class="level-up-avatar-glow" id="level-up-badge-container">
+        <span class="level-up-badge-large" id="level-up-badge-icon">🌿</span>
+      </div>
+      <span class="level-up-tag">YANGI DARAJA OCHILDI!</span>
+      <h1 class="level-up-name" id="level-up-title">Explorer</h1>
+      <p class="level-up-uz-title" id="level-up-uz-title">Tabiat Izquvari</p>
+      <p class="level-up-desc" id="level-up-desc">Siz yangi bilimlarni egallab, yuqori pog'onaga ko'tarildingiz!</p>
+      
+      <div class="level-up-perk-box">
+        <span class="perk-icon">🎖️</span>
+        <div>
+          <strong id="level-up-reward-title">Yangi unvon & nishon</strong>
+          <p id="level-up-reward-desc">Levels Top reytingida yangi toj va yorliq bilan ko'rinasiz!</p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-primary-action" id="btn-close-level-up">
+          🚀 Yangi Cho'qqilarni Zabt Etish!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. Profilni Tahrirlash Modali (Ism, Sinf 1-5, Maktab) -->
+  <div class="modal-backdrop" id="edit-profile-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-badge-status neutral">
+          <span>👤</span>
+          <span>Eko-Profilni Sozlash</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-profile-modal">✕</button>
+      </div>
+
+      <form id="profile-edit-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="edit-profile-name">Ismingiz va Familiyangiz:</label>
+            <input type="text" id="edit-profile-name" value="Ali Valiyev" required maxlength="30">
+          </div>
+
+          <div class="form-row two-cols">
+            <div class="form-group">
+              <label for="edit-profile-grade">Sinfingiz (1, 2, 3, 4 yoki 5-sinf):</label>
+              <select id="edit-profile-grade" required>
+                <option value="1">1-sinf</option>
+                <option value="2">2-sinf</option>
+                <option value="3" selected>3-sinf</option>
+                <option value="4">4-sinf</option>
+                <option value="5">5-sinf</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="edit-profile-letter">Sinf Harfi:</label>
+              <input type="text" id="edit-profile-letter" value="A" required maxlength="4">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="edit-profile-school">Maktabingiz / Shahar:</label>
+            <input type="text" id="edit-profile-school" value="21-maktab" required maxlength="40">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn-primary-action">
+            <span>💾 Saqlash va Yangilash</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript fayllar -->
+  <script src="data.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
